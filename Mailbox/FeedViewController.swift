@@ -35,9 +35,13 @@ class FeedViewController: UIViewController {
     var menuX : CGFloat!
     var menuOffset : CGFloat!
     var menuStatus : Bool!
+    var rescheduleStatus : Bool!
+    var listStatus : Bool!
     var offset : CGFloat!
     var scrollPoint : CGPoint!
     var iconOffset : CGFloat!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +52,8 @@ class FeedViewController: UIViewController {
         
         menuOffset = 270.0
         menuStatus = false
+        rescheduleStatus = false
+        listStatus = false
 
         totalSize = feedView.image!.size.height + helpView.image!.size.height + searchView.image!.size.height
         
@@ -62,6 +68,7 @@ class FeedViewController: UIViewController {
         rescheduleView.alpha = 0
         listView.alpha = 0
         menuView.alpha = 0
+        
     }
 
     
@@ -291,6 +298,22 @@ class FeedViewController: UIViewController {
                 //print("LISTED")
             }
     
+        }
+    }
+
+    @IBAction func dismissRescheduleView(sender: AnyObject) {
+        if rescheduleView.alpha == 1 {
+            rescheduleView.alpha = 0
+        } else {
+            rescheduleView.alpha = 1
+        }
+    }
+    
+    @IBAction func dismissLIstView(sender: AnyObject) {
+        if listView.alpha == 1 {
+            listView.alpha = 0
+        } else {
+            listView.alpha = 1
         }
     }
     
