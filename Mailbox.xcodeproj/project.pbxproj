@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB29A5491BC06C3E00CAC053 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB29A5481BC06C3E00CAC053 /* FeedViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		CBDF76781BBE1C8B00F0C32A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDF76771BBE1C8B00F0C32A /* AppDelegate.swift */; };
 		CBDF767A1BBE1C8B00F0C32A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDF76791BBE1C8B00F0C32A /* ViewController.swift */; };
 		CBDF767D1BBE1C8B00F0C32A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBDF767B1BBE1C8B00F0C32A /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CB29A5481BC06C3E00CAC053 /* FeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		CBDF76741BBE1C8B00F0C32A /* Mailbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mailbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBDF76771BBE1C8B00F0C32A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CBDF76791BBE1C8B00F0C32A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				CBDF76771BBE1C8B00F0C32A /* AppDelegate.swift */,
 				CBDF76791BBE1C8B00F0C32A /* ViewController.swift */,
 				CBDF767B1BBE1C8B00F0C32A /* Main.storyboard */,
+				CB29A5481BC06C3E00CAC053 /* FeedViewController.swift */,
 				CBDF767E1BBE1C8B00F0C32A /* Assets.xcassets */,
 				CBDF76801BBE1C8B00F0C32A /* LaunchScreen.storyboard */,
 				CBDF76831BBE1C8B00F0C32A /* Info.plist */,
@@ -259,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBDF767A1BBE1C8B00F0C32A /* ViewController.swift in Sources */,
+				CB29A5491BC06C3E00CAC053 /* FeedViewController.swift in Sources */,
 				CBDF76781BBE1C8B00F0C32A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -486,6 +490,7 @@
 				CBDF769E1BBE1C8B00F0C32A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CBDF769F1BBE1C8B00F0C32A /* Build configuration list for PBXNativeTarget "MailboxTests" */ = {
 			isa = XCConfigurationList;
@@ -494,6 +499,7 @@
 				CBDF76A11BBE1C8B00F0C32A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CBDF76A21BBE1C8B00F0C32A /* Build configuration list for PBXNativeTarget "MailboxUITests" */ = {
 			isa = XCConfigurationList;
@@ -502,6 +508,7 @@
 				CBDF76A41BBE1C8B00F0C32A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
