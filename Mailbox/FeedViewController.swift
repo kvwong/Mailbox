@@ -41,8 +41,6 @@ class FeedViewController: UIViewController {
     var scrollPoint : CGPoint!
     var iconOffset : CGFloat!
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -69,6 +67,9 @@ class FeedViewController: UIViewController {
         listView.alpha = 0
         menuView.alpha = 0
         
+        let edgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: "onEdgePan:")
+        edgeGesture.edges = UIRectEdge.Left
+        appView.addGestureRecognizer(edgeGesture)
     }
 
     
@@ -76,10 +77,14 @@ class FeedViewController: UIViewController {
         if menuStatus == false {
             self.menuView.alpha = 1
             self.menuStatus = true
+            self.scrollView.userInteractionEnabled = false
+            self.messageView.userInteractionEnabled = false
             UIView.animateWithDuration(0.3) { () -> Void in
                 self.appView.frame.origin.x = self.appView.frame.origin.x + self.menuOffset
             }
         } else {
+            self.scrollView.userInteractionEnabled = true
+            self.messageView.userInteractionEnabled = true
             UIView.animateWithDuration(0.3) { () -> Void in
                 //self.menuView.alpha = 0
                 self.menuStatus = false
@@ -99,37 +104,40 @@ class FeedViewController: UIViewController {
     @IBOutlet var edgeSwipe: UIScreenEdgePanGestureRecognizer!
     
     
-    @IBAction func edgeSwipe(sender: UIScreenEdgePanGestureRecognizer) {
-        if sender.state == UIGestureRecognizerState.Began {
-        }
-        
-        else if sender.state == UIGestureRecognizerState.Changed {
-        }
-        
-        else if sender.state == UIGestureRecognizerState.Ended {
+    func onEdgePan(edgeGesture: UIScreenEdgePanGestureRecognizer) {
+        if edgeGesture.state == .Recognized {
             if menuStatus == false {
                 self.menuView.alpha = 1
                 self.menuStatus = true
-                UIView.animateWithDuration(0.3) { () -> Void in
+                self.scrollView.userInteractionEnabled = false
+                self.messageView.userInteractionEnabled = false
+                UIView.animateWithDuration(0.3, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.3, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                     self.appView.frame.origin.x = self.appView.frame.origin.x + self.menuOffset
-                }
+                }, completion: nil)
             } else {
-                UIView.animateWithDuration(0.3) { () -> Void in
+                UIView.animateWithDuration(0.3, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.3, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                     self.menuView.alpha = 0
                     self.menuStatus = false
+                    self.scrollView.userInteractionEnabled = true
+                    self.messageView.userInteractionEnabled = true
                     self.appView.frame.origin.x = self.appView
                         .frame.origin.x - self.menuOffset
-                }
+                }, completion: nil)
             }
+            print("Screen edge swiped!")
         }
     }
+
     
+    //Edge swipe the app to open the menu
+    @IBAction func edgeSwipe(sender: UIScreenEdgePanGestureRecognizer) {
+    }
     
-    @IBAction func swipeMenu(sender: UIPanGestureRecognizer) {
+    @IBAction func swipeMenuClose(sender: UIPanGestureRecognizer) {
         let translation = sender.translationInView(view)
         
         if sender.state == UIGestureRecognizerState.Began {
-            menuX = 0.0
+            menuX = appView.frame.origin.x
         }
             
         else if sender.state == UIGestureRecognizerState.Changed {
@@ -138,28 +146,93 @@ class FeedViewController: UIViewController {
         }
             
         else if sender.state == UIGestureRecognizerState.Ended {
-            if appView.frame.origin.x > 40 {
+            if appView.frame.origin.x > 60 && menuStatus == false {
                 UIView.animateWithDuration(0.3) { () -> Void in
                     self.appView.frame.origin.x = self.menuOffset
                     self.menuStatus = true
                     self.menuView.alpha = 1
+                    self.scrollView.userInteractionEnabled = false
+                    self.messageView.userInteractionEnabled = false
                 }
-            } else {
+            } else if appView.frame.origin.x > 0 && appView.frame.origin.x < 60 && menuStatus == false {
                 UIView.animateWithDuration(0.3) { () -> Void in
                     self.appView.frame.origin.x = self.menuX
                     self.menuStatus = false
-
+                }
+            } else if appView.frame.origin.x < 220 && menuStatus == true {
+                UIView.animateWithDuration(0.3) { () -> Void in
+                    self.appView.frame.origin.x = 0.0
+                    self.menuStatus = false
+                    self.scrollView.userInteractionEnabled = true
+                    self.messageView.userInteractionEnabled = true
+                }
+            } else {
+                UIView.animateWithDuration(0.3) { () -> Void in
+                    self.appView.frame.origin.x = self.menuOffset
+                    self.menuStatus = true
+                    self.menuView.alpha = 1
+                    self.scrollView.userInteractionEnabled = false
+                    self.messageView.userInteractionEnabled = false
                 }
             }
         }
     }
     
+    //Pan swipe menu button to open the menu
+    @IBAction func swipeMenu(sender: UIPanGestureRecognizer) {
+        let translation = sender.translationInView(view)
+        
+        if sender.state == UIGestureRecognizerState.Began {
+            menuX = appView.frame.origin.x
+        }
+            
+        else if sender.state == UIGestureRecognizerState.Changed {
+            appView.frame.origin.x = menuX + translation.x
+            menuView.alpha = 1
+        }
+            
+        else if sender.state == UIGestureRecognizerState.Ended {
+            if appView.frame.origin.x > 60 && menuStatus == false {
+                UIView.animateWithDuration(0.3) { () -> Void in
+                    self.appView.frame.origin.x = self.menuOffset
+                    self.menuStatus = true
+                    self.menuView.alpha = 1
+                    self.scrollView.userInteractionEnabled = false
+                    self.messageView.userInteractionEnabled = false
+                }
+            } else if appView.frame.origin.x > 0 && appView.frame.origin.x < 60 && menuStatus == false {
+                UIView.animateWithDuration(0.3) { () -> Void in
+                    self.appView.frame.origin.x = self.menuX
+                    self.menuStatus = false
+                }
+            } else if appView.frame.origin.x < 220 && menuStatus == true {
+                UIView.animateWithDuration(0.3) { () -> Void in
+                    self.appView.frame.origin.x = 0.0
+                    self.menuStatus = false
+                    self.scrollView.userInteractionEnabled = true
+                    self.messageView.userInteractionEnabled = true
+                }
+            } else {
+                UIView.animateWithDuration(0.3) { () -> Void in
+                    self.appView.frame.origin.x = self.menuOffset
+                    self.menuStatus = true
+                    self.menuView.alpha = 1
+                    self.scrollView.userInteractionEnabled = false
+                    self.messageView.userInteractionEnabled = false
+                }
+            }
+        }
+    }
+    
+    //Swipe message to take action
     @IBAction func swipeMessage(sender: UIPanGestureRecognizer) {
         //let point = sender.locationInView(view)
         let translation = sender.translationInView(view)
         
         if sender.state == UIGestureRecognizerState.Began {
             messageCenter = messageView.center
+            
+            //GESTURE CHANGED
         } else if sender.state == UIGestureRecognizerState.Changed {
             messageView.center = CGPoint(x: messageCenter.x + translation.x, y: messageCenter.y)
             
@@ -213,97 +286,120 @@ class FeedViewController: UIViewController {
                 messageBackground.backgroundColor = UIColorFromHex(0xD9A676, alpha: 1.0)
                 //print("listing")
             }
-        
+
+            //GESTURE ENDED
         } else if sender.state == UIGestureRecognizerState.Ended {
             if messageView.frame.origin.x < 60 && messageView.frame.origin.x > 0 {
-                UIView.animateWithDuration(0.1, animations: { () -> Void in
+                UIView.animateWithDuration(0.3, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                     self.messageView.frame.origin.x = 0
-                })
-                //archiveIcon.alpha = 0
-                //deleteIcon.alpha = 0
-                //laterIcon.alpha = 0
-                //listIcon.alpha = 0
+                    }, completion: nil)
             }
+        
             else if messageView.frame.origin.x > -60 && messageView.frame.origin.x < 0 {
-                UIView.animateWithDuration(0.1, animations: { () -> Void in
+                UIView.animateWithDuration(0.3, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                     self.messageView.frame.origin.x = 0
-                })
-                //archiveIcon.alpha = 0
-                //deleteIcon.alpha = 0
-                //laterIcon.alpha = 0
-                //listIcon.alpha = 0
+                    }, completion: nil)
             }
 
-            //Complete Archive Animation
+            //Complete ARCHIVE Animation
             else if messageView.frame.origin.x > 60 && messageView.frame.origin.x < 260 {
-                UIView.animateWithDuration(0.3, animations: { () -> Void in
-                    self.messageView.frame.origin.x = 320
-                    self.messageBackground.frame.size.height = 0
-                    self.feedView.frame.origin.y = self.feedView.frame.origin.y - 86
-                })
                 messageBackground.backgroundColor = UIColorFromHex(0x62DA62, alpha: 1.0)
                 archiveIcon.alpha = 0
                 deleteIcon.alpha = 0
                 laterIcon.alpha = 0
                 listIcon.alpha = 0
-                //print("ARCHIVED")
+                
+                UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                    self.messageView.frame.origin.x = 320
+                    }, completion: {
+                        (finished: Bool) -> Void in
+                        
+                        UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                            self.feedView.frame.origin.y = self.feedView.frame.origin.y - 86
+                            self.messageBackground.frame.size.height = 0
+                            }, completion: nil)
+                })
+
             }
             
             //Complete DELETE Animation
             else if messageView.frame.origin.x > 260 {
-                UIView.animateWithDuration(0.3, animations: { () -> Void in
-                    self.messageView.frame.origin.x = 320
-                    self.messageBackground.frame.size.height = 0
-                    self.feedView.frame.origin.y = self.feedView.frame.origin.y - 86
-                })
                 messageBackground.backgroundColor = UIColorFromHex(0xEF540D, alpha: 1.0)
                 archiveIcon.alpha = 0
                 deleteIcon.alpha = 0
                 laterIcon.alpha = 0
                 listIcon.alpha = 0
-                //print("DELETED")
+                
+                UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                    self.messageView.frame.origin.x = 320
+                    }, completion: {
+                        (finished: Bool) -> Void in
+                        
+                        UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                            self.feedView.frame.origin.y = self.feedView.frame.origin.y - 86
+                            self.messageBackground.frame.size.height = 0
+                            }, completion: nil)
+                })
+ 
+
             }
             
             //Complete RESCHEDULE Animation
             else if messageView.frame.origin.x < -60 && messageView.frame.origin.x > -260 {
-                UIView.animateWithDuration(0.3, animations: { () -> Void in
-                    self.messageView.frame.origin.x = -320
-                    self.messageBackground.frame.size.height = 0
-                    self.feedView.frame.origin.y = self.feedView.frame.origin.y - 86
-                    self.rescheduleView.alpha = 1
-                })
                 messageBackground.backgroundColor = UIColorFromHex(0xFFCC00, alpha: 1.0)
                 archiveIcon.alpha = 0
                 deleteIcon.alpha = 0
                 laterIcon.alpha = 0
                 listIcon.alpha = 0
                 
-                //print("RESCHEDULED")
+                UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                    self.messageView.frame.origin.x = -320
+                    self.rescheduleView.alpha = 1
+                    }, completion: {
+                        (finished: Bool) -> Void in
+                        
+                        //if self.rescheduleView.alpha == 0 {
+                        //UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                        //    self.feedView.frame.origin.y = self.feedView.frame.origin.y - 86
+                        //    self.messageBackground.frame.size.height = 0
+                        //    }, completion: nil)
+                        //} else {
+                            
+                        //}
+                })
+
+
             }
             
             //Complete LIST Animation
             else if messageView.frame.origin.x < -260 {
-                UIView.animateWithDuration(0.3, animations: { () -> Void in
-                    self.messageView.frame.origin.x = -320
-                    self.messageBackground.frame.size.height = 0
-                    self.feedView.frame.origin.y = self.feedView.frame.origin.y - 86
-                    self.listView.alpha = 1
-                })
                 messageBackground.backgroundColor = UIColorFromHex(0xD9A676, alpha: 1.0)
                 archiveIcon.alpha = 0
                 deleteIcon.alpha = 0
                 laterIcon.alpha = 0
                 listIcon.alpha = 0
                 
-                //print("LISTED")
+                UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                    self.messageView.frame.origin.x = -320
+                    self.listView.alpha = 1
+                    }, completion: {
+                        (finished: Bool) -> Void in
+                })
+                
+
             }
     
         }
     }
+    
 
     @IBAction func dismissRescheduleView(sender: AnyObject) {
         if rescheduleView.alpha == 1 {
             rescheduleView.alpha = 0
+            UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                self.feedView.frame.origin.y = self.feedView.frame.origin.y - 86
+                self.messageBackground.frame.size.height = 0
+                }, completion: nil)
         } else {
             rescheduleView.alpha = 1
         }
@@ -312,6 +408,10 @@ class FeedViewController: UIViewController {
     @IBAction func dismissLIstView(sender: AnyObject) {
         if listView.alpha == 1 {
             listView.alpha = 0
+            UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                self.feedView.frame.origin.y = self.feedView.frame.origin.y - 86
+                self.messageBackground.frame.size.height = 0
+                }, completion: nil)
         } else {
             listView.alpha = 1
         }
