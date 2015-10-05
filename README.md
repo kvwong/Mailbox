@@ -31,7 +31,7 @@ Code Path: Week 3 assignment demonstrating animations and conditional logic in S
 
 **SWIPE TO RESCHEDULE / LIST**
 
-![]https://github.com/kvwong/Mailbox/blob/master/Swipe%20List.gif)
+![](https://github.com/kvwong/Mailbox/blob/master/Swipe%20List.gif)
 
 **TAP / SWIPE MENU**
 
