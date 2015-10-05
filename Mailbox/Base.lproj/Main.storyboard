@@ -26,6 +26,14 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                         <animations/>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="aaa-2c-Y8I">
+                                        <rect key="frame" x="270" y="20" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <connections>
+                                            <action selector="compose:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ji6-Z5-hsu"/>
+                                        </connections>
+                                    </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" id="Yz6-d9-ypo">
                                         <rect key="frame" x="78" y="26" width="163" height="29"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -36,6 +44,9 @@
                                             <segment title="" image="archive_nav_icon"/>
                                         </segments>
                                         <color key="tintColor" red="0.2627450980392157" green="0.66666666666666663" blue="0.82352941176470584" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="tabbing:" destination="BYZ-38-t0r" eventType="valueChanged" id="Zjq-d8-yF2"/>
+                                        </connections>
                                     </segmentedControl>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="eOG-yx-zVl">
                                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
@@ -96,6 +107,16 @@
                                         </subviews>
                                         <animations/>
                                     </scrollView>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="archive" id="RSY-1y-DXu">
+                                        <rect key="frame" x="320" y="64" width="320" height="520"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <animations/>
+                                    </imageView>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="later" id="YOd-eP-BPk">
+                                        <rect key="frame" x="-320" y="64" width="320" height="520"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <animations/>
+                                    </imageView>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="center" image="reschedule" id="el7-JP-O7m">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <autoresizingMask key="autoresizingMask"/>
@@ -125,6 +146,20 @@
                                             <outletCollection property="gestureRecognizers" destination="8J4-tg-4xg" appends="YES" id="W1f-zg-lAc"/>
                                         </connections>
                                     </button>
+                                    <view contentMode="scaleToFill" id="Ypw-sV-dKg">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.49783909574468083" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="compose" id="aOn-pw-7TU">
+                                        <rect key="frame" x="0.0" y="568" width="320" height="203"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <animations/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="WWO-jI-yzj" appends="YES" id="sNd-p0-XMg"/>
+                                        </connections>
+                                    </imageView>
                                 </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -143,11 +178,15 @@
                     <connections>
                         <outlet property="appView" destination="Aqk-IT-PhE" id="ZDc-JA-EjN"/>
                         <outlet property="archiveIcon" destination="4Ib-UC-LzS" id="T0l-Em-Zfh"/>
+                        <outlet property="archiveView" destination="RSY-1y-DXu" id="QX6-L8-3ss"/>
+                        <outlet property="blackout" destination="Ypw-sV-dKg" id="xrO-Hf-hEI"/>
+                        <outlet property="composer" destination="aOn-pw-7TU" id="9l3-mt-aDC"/>
                         <outlet property="deleteIcon" destination="Mn9-1B-66s" id="DgL-f6-pRs"/>
                         <outlet property="edgeSwipe" destination="8J4-tg-4xg" id="RTP-fD-qlI"/>
                         <outlet property="feedView" destination="aeI-43-wCt" id="SE9-4M-WpM"/>
                         <outlet property="helpView" destination="6aR-Mz-FcU" id="XlQ-J7-9RJ"/>
                         <outlet property="laterIcon" destination="qm1-mc-ZTz" id="1ke-Dt-HFL"/>
+                        <outlet property="laterView" destination="YOd-eP-BPk" id="OTx-eS-iXT"/>
                         <outlet property="listIcon" destination="wfO-HN-60X" id="S8A-eL-mjI"/>
                         <outlet property="listView" destination="HG2-Oy-n0N" id="xww-oz-yGw"/>
                         <outlet property="menuButton" destination="Ig3-Ww-gf2" id="qOw-yH-F2Y"/>
@@ -194,16 +233,24 @@
                         <action selector="dismissLIstView:" destination="BYZ-38-t0r" id="LCv-Fw-QF0"/>
                     </connections>
                 </tapGestureRecognizer>
+                <tapGestureRecognizer id="WWO-jI-yzj">
+                    <connections>
+                        <action selector="dismissComposer:" destination="BYZ-38-t0r" id="xBg-x3-dRp"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="162" y="406"/>
         </scene>
     </scenes>
     <resources>
+        <image name="archive" width="320" height="520"/>
         <image name="archive_icon" width="25" height="25"/>
         <image name="archive_nav_icon" width="25" height="20"/>
+        <image name="compose" width="320" height="203"/>
         <image name="delete_icon" width="25" height="25"/>
         <image name="feed" width="320" height="1202"/>
         <image name="help_label" width="320" height="37"/>
+        <image name="later" width="320" height="520"/>
         <image name="later_icon" width="25" height="25"/>
         <image name="later_nav_icon" width="25" height="20"/>
         <image name="list" width="320" height="568"/>
