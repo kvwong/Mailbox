@@ -27,19 +27,23 @@ Code Path: Week 3 assignment demonstrating animations and conditional logic in S
 
 **MESSAGE PANNING**
 
-![](https://)
+![](https://github.com/kvwong/Mailbox/blob/master/Pan%20Message.gif)
 
 **SWIPE TO RESCHEDULE / LIST**
 
-![](https://
+![]https://github.com/kvwong/Mailbox/blob/master/Swipe%20List.gif)
 
 **TAP / SWIPE MENU**
 
-![](https://)
+![](https://github.com/kvwong/Mailbox/blob/master/Menu.gif)
+
+**TAB FEED VIEW**
+
+![](https://github.com/kvwong/Mailbox/blob/master/Tabs.gif)
 
 **COMPOSE NEW MESSAGE**
 
-![](https://)
+![](https://github.com/kvwong/Mailbox/blob/master/Compose.gif)
 
 ## Creator
 **Kevin Wong**
